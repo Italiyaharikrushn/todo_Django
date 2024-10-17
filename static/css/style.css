@@ -1,0 +1,148 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+h1 {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background: #fff;
+    margin: 5px 0;
+    padding: 10px;
+    border-left: 4px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.actions {
+    display: flex;
+}
+
+.actions a {
+    margin-left: 10px;
+    text-decoration: none;
+    color: #333;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #333;
+}
+
+a:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.create-form,
+.update-form {
+    margin-top: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-form input[type="text"],
+.update-form input[type="text"] {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.create-form button,
+.update-form button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.create-form button:hover,
+.update-form button:hover {
+    background-color: #555;
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    height: auto;
+    width: 20%;
+    /* top: 0; */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.cancelbtn,
+.deletebtn {
+    padding: 10px;
+    color: white;
+    border: none;
+    margin-right: 10px;
+}
+
+.cancelbtn {
+    background-color: #555;
+}
+
+.deletebtn {
+    background-color: #d63131;
+}
+
+/* Checkbox */
+.checkbox {
+    display: block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.checkbox input {
+    margin-right: 5px;
+    cursor: pointer;
+}
