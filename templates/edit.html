@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>To-Do List</title>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+    }
+
+    .to-do-list {
+      width: 1263;
+      height: 924px;
+    }
+
+    h3 {
+      /* font-family: "Dancing Script", cursive; */
+      text-align: center;
+    }
+
+    .contain {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    input[type="text"] {
+      width: 900px;
+      padding: 12px;
+      font-family: "Nunito", sans-serif;
+      font-size: 15px;
+      border: 1px solid black;
+    }
+
+    #addlist {
+      width: 200px;
+      padding: 12px;
+      font-family: "Nunito", sans-serif;
+      font-size: 15px;
+      color: white;
+      background-color: rgba(2, 93, 2, 0.514);
+      border: 1px solid rgba(2, 93, 2, 0.514);
+      border-radius: 6px;
+    }
+
+    .styled-div {
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+    }
+
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .styled-table td {
+      padding: 12px;
+      vertical-align: top;
+    }
+
+    .styled-table .label {
+      width: 25%;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .styled-table .value {
+      width: 75%;
+      color: #555;
+    }
+
+
+    .styled-table tr:nth-child(even) {
+      background-color: #f0f0f0;
+    }
+
+    .styled-table tr:hover {
+      background-color: #e0e0e0;
+    }
+
+    input[type="checkbox"],
+    .styled-table td {
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      margin-right: 10px;
+    }
+
+    .todo-form {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .todo-form input[type="text"],
+    .todo-form textarea,
+    .todo-form select,
+    .todo-form input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .todo-form textarea {
+      resize: vertical;
+      height: 80px;
+    }
+
+    .todo-form button {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease;
+    }
+
+    .todo-form button:hover {
+      background-color: #218838;
+    }
+
+    .todo-form label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .todo-form input,
+    .todo-form textarea,
+    .todo-form select {
+      transition: border-color 0.3s ease;
+    }
+
+    .todo-form input:focus,
+    .todo-form textarea:focus,
+    .todo-form select:focus,
+    .todo-form input[type="date"]:focus {
+      border-color: #28a745;
+      outline: none;
+    }
+
+    @media (max-width: 600px) {
+      .todo-form {
+        padding: 15px;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="to-do-list">
+    <div class="heading">
+      <h3 class="text-4xl mt-4">To-Do List</h3>
+    </div>
+    <div class="contain">
+      <form id="todo-form" class="todo-form" method="post" action="{% url 'edit_task' task.id %}">
+        {% csrf_token %}
+        <input type="text" name="title" id="todotext" placeholder="Add a Task." value="{{task.title}}" required />
+        <textarea name="desc" id="tododesc" placeholder="Task Description" required>{{task.desc}}</textarea>
+
+        <label for="todostatus">Status:</label>
+        <select name="status" id="todostatus">
+          <option value="Incomplete" {% if task.status == 'Incomplete' %}selected{% endif %}>Incomplete</option>
+          <option value="Complete" {% if task.status == 'Complete' %}selected{% endif %}>Complete</option>
+        </select>
+
+        {% if task.status == 'Complete' %}
+        <div id="completion-date-field">
+          <label for="tododate">Completion Date:</label>
+          <input type="date" id="tododate" name="completion_date" value="{{task.completion_date}}" required/>
+        </div>
+        {% endif %}
+
+        <button type='submit' id="addlist">Update Task</button>
+      </form>
+
+      {% if messages %}
+      <ul class="messages mt-3">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+
+      <form id="todo-form" class="mt-3" action="{% url 'home' %}">
+        <button id="addlist">Back</button>
+      </form>
+
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const statusSelect = document.getElementById('todostatus');
+        const userForm = document.getElementById("todo-form")
+        const hiddenInput = document.createElement('input')
+
+        function toggleCompletionDate() {
+          hiddenInput.type = 'hidden';
+          hiddenInput.name = 'dropdown_submit';
+          hiddenInput.value = 'true'; 
+
+          userForm.appendChild(hiddenInput)
+          userForm.submit()
+        }
+        statusSelect.addEventListener('change', toggleCompletionDate);
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
+</body>
+
+</html>
