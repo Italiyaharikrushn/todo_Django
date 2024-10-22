@@ -11,7 +11,9 @@ def addTask(request):
         title = request.POST.get('title')
         desc = request.POST.get('desc')
         status = request.POST.get('status')
+        
         completion_date = request.POST.get('completion_date') if status == 'Complete' else None
+
         dropdown_submit = request.POST.get('dropdown_submit', False)
 
         if dropdown_submit:
@@ -40,20 +42,54 @@ def delete_task(request, id):
     
     return render(request, 'delete.html', {'item': item})
 
+# def editTask(request, id):
+#     task = Todo.objects.get(id=id)
+
+#     if request.method == 'POST':
+#         title = request.POST.get('title')
+#         desc = request.POST.get('desc')
+#         status = request.POST.get('status')
+#         dropdown_submit = request.POST.get('dropdown_submit', False)
+
+#         task.title = title
+#         task.desc = desc
+#         task.status = status
+        
+#         if status == 'Complete':
+#             task.completion_date = request.POST.get('completion_date')
+#         else:
+#             task.completion_date = None
+
+#         if not dropdown_submit:
+#             task.save()
+
+#         if not dropdown_submit:
+#             messages.success(request, 'Task updated successfully.')
+
+#         return render(request, 'edit.html', {'task': task})
+
+#     return render(request, 'edit.html', {'task': task})
+
+
 def editTask(request, id):
-    task = get_object_or_404(Todo, id=id)
+    task = Todo.objects.get(id=id)
 
     if request.method == 'POST':
         title = request.POST.get('title')
         desc = request.POST.get('desc')
         status = request.POST.get('status')
-        completion_date = request.POST.get('completion_date') if status == 'Complete' else None
+        completion_date = request.POST.get('completion_date')
+
         dropdown_submit = request.POST.get('dropdown_submit', False)
-        
+
         task.title = title
         task.desc = desc
         task.status = status
-        task.completion_date = completion_date
+
+        if status == 'Complete':
+            task.completion_date = completion_date or task.completion_date
+        else:
+            task.completion_date = None
 
         if not dropdown_submit:
             task.save()
