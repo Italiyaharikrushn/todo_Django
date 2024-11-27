@@ -82,7 +82,7 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'todo_app',
+        'NAME': 'todos_apps',
         'USER': 'postgres',
         'PASSWORD': 'root',
         'HOST': 'localhost',
